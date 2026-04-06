@@ -1,0 +1,5 @@
+[
+  {"text": "Server is down!!! Fix immediately", "label": "High"},
+  {"text": "Meeting scheduled at 4 PM", "label": "Medium"},
+  {"text": "50% discount on shoes!!!", "label": "Low"}
+]
