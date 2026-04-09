@@ -3,9 +3,9 @@ version: "1"
 services:
   app:
     build: .
-    command: python app.py
+    command: python -m server.app
     ports:
-      - "8000:8000"
+      - "7860:7860"
 
 evaluation:
   inference_script: inference.py
