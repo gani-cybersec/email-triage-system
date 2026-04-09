@@ -1,0 +1,16 @@
+version: "1"
+
+services:
+  app:
+    build: .
+    command: python app.py
+    ports:
+      - "8000:8000"
+
+evaluation:
+  inference_script: inference.py
+
+env:
+  # 🔥 CRITICAL: These will be injected automatically by evaluator
+  API_BASE_URL: ${API_BASE_URL}
+  API_KEY: ${API_KEY}
