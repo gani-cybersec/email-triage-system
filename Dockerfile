@@ -1,13 +1,15 @@
-FROM python:3.10-slim
+version: "1"
 
-WORKDIR /app
+services:
+  app:
+    build: .
+    command: python -m server.app
+    ports:
+      - "7860:7860"
 
-COPY requirements.txt .
+evaluation:
+  inference_script: inference.py
 
-RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-EXPOSE 7860
-
-CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "7860"]
+env:
+  API_BASE_URL: ${API_BASE_URL}
+  API_KEY: ${API_KEY}
