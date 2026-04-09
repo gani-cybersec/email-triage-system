@@ -1,27 +1,16 @@
 [project]
 name = "openmail-rl"
 version = "0.1.0"
-description = "Email triage RL system with spam detection, priority classification, and auto-reply"
-authors = [
-    { name = "Vamsi" }
-]
 requires-python = ">=3.9"
 
-# -------------------------------
-# DEPENDENCIES
-# -------------------------------
 dependencies = [
     "fastapi",
     "uvicorn",
     "pydantic",
     "requests",
-    "openai>=1.0.0",
+    "openai",
     "openenv-core>=0.2.0"
 ]
 
-# -------------------------------
-# BUILD SYSTEM
-# -------------------------------
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+[project.scripts]
+server = "server.app:app"
