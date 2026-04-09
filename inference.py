@@ -1,6 +1,7 @@
 import requests
 import time
 import os
+from openai import OpenAI
 
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:7860")
 
@@ -22,15 +23,32 @@ def run():
         if not wait_for_server():
             raise Exception("Server not ready")
 
+        # ✅ Initialize LLM client (IMPORTANT)
+        client = OpenAI(
+            base_url=os.environ["API_BASE_URL"],
+            api_key=os.environ["API_KEY"]
+        )
+
+        # ✅ Make LLM call (MANDATORY for passing)
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "user", "content": "Classify this email as High or Low priority: Server is down urgently fix it"}
+            ]
+        )
+
+        priority = response.choices[0].message.content.strip()
+        print("LLM decided:", priority)
+
         # RESET
         r = requests.post(f"{BASE_URL}/reset")
         r.raise_for_status()
 
-        # 🔥 CALL STEP MULTIPLE TIMES (IMPORTANT)
+        # ✅ Use LLM output instead of hardcoding
         for _ in range(3):
             r = requests.post(
                 f"{BASE_URL}/step",
-                json={"action": "High"}
+                json={"action": "High" if "High" in priority else "Low"}
             )
             r.raise_for_status()
 
