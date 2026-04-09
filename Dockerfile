@@ -1,15 +1,14 @@
-version: "1"
+FROM python:3.10-slim
 
-services:
-  app:
-    build: .
-    command: python -m server.app
-    ports:
-      - "7860:7860"
+WORKDIR /app
 
-evaluation:
-  inference_script: inference.py
+COPY requirements.txt .
 
-env:
-  API_BASE_URL: ${API_BASE_URL}
-  API_KEY: ${API_KEY}
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 7860
+
+CMD ["python", "-m", "server.app"]
